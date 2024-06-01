@@ -14,7 +14,6 @@ spring:
       ddl-auto: create-drop
     database: mysql
     database-platform: org.hibernate.dialect.MySQLDialect
-    dialect: false
 
 eureka:
   instance:
@@ -22,3 +21,10 @@ eureka:
   client:
     serviceUrl:
       defaultZone: http://localhost:8761/eureka
+
+
+springdoc:
+  api-docs:
+    path: /api/user/v3/api-docs
+  swagger-ui:
+    path: /api/user/swagger-ui.html

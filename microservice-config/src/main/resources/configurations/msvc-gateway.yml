@@ -11,13 +11,42 @@ spring:
           enabled: true
       routes:
         - id: users
-          uri: 'http://localhost:8090'
+          uri: http://localhost:8090
           predicates:
             - Path=/api/user/**
         - id: courses
-          uri: 'http://localhost:9090'
+          uri: http://localhost:9090
           predicates:
             - Path=/api/course/**
+  security:
+    user:
+      name: admin
+      password: 1234
+      roles: ADMIN
+    #oauth2: # OAUTH2
+      #client:
+        #registration:
+          #github: # GitHub Login
+          #  client-id:        #<Github-Key-Id>
+          #  client-secret:    #<Github-Secret-Key>
+          #google:  # Google Login
+          #  client-id:        #<Google-Key-Id>
+          #  client-secret:    #<Google-Secret-Key>
+
+
 eureka:
   client:
     register-with-eureka: false
+
+springdoc:
+  api-docs:
+    enabled: true
+  swagger-ui:
+    enabled: true
+    path: /swagger-ui.html
+    config-url: /v3/api-docs/swagger-config
+    urls:
+      - url: /api/user/v3/api-docs
+        name: User Service
+      - url: /api/course/v3/api-docs
+        name: Course Service

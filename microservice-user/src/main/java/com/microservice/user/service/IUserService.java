@@ -3,14 +3,14 @@ package com.microservice.user.service;
 import com.microservice.user.controller.dto.StudentDTO;
 import com.microservice.user.controller.dto.TeacherDTO;
 import com.microservice.user.controller.dto.UserDTO;
-import com.microservice.user.persistence.entity.UserEntity;
+import com.microservice.user.http.response.ClientResponse;
 
 import java.util.List;
 
 public interface IUserService {
-    List<UserDTO> getAll();
+    List<UserDTO> findAll();
 
-    UserDTO getUserById(Long id);
+    UserDTO findByID(Long id);
 
     UserDTO save(UserDTO user);
 
@@ -19,5 +19,9 @@ public interface IUserService {
     void deleteUserById(Long id);
 
     List<StudentDTO> findStudentsByCourseId(Long courseId);
+
     List<TeacherDTO> findTeachersByCourseId(Long courseId);
+
+    ClientResponse getCoursesById(Long courseId);
+
 }

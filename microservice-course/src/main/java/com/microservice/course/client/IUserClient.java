@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 
 import java.util.List;
 
-@FeignClient(name = "msvc-user", url = "localhost:8090")
+@FeignClient(name = "msvc-user", url = "localhost:8080")
 public interface IUserClient {
 
     @GetMapping("/api/user/student/{courseId}")

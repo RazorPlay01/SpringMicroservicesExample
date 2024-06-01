@@ -1,4 +1,4 @@
-package com.microservice.course.controller.dto;
+package com.microservice.user.controller.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

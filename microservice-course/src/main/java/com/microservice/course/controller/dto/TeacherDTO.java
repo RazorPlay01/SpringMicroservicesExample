@@ -11,5 +11,4 @@ public class TeacherDTO {
     private Long id;
     private String fullname;
     private String email;
-    private Long courseId;
 }

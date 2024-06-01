@@ -3,17 +3,26 @@ package com.microservice.user.controller;
 import com.microservice.user.controller.dto.StudentDTO;
 import com.microservice.user.controller.dto.TeacherDTO;
 import com.microservice.user.controller.dto.UserDTO;
+import com.microservice.user.http.response.ClientResponse;
+import com.microservice.user.persistence.entity.UserType;
 import com.microservice.user.service.IUserService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Date;
 import java.util.List;
 
 @RestController
 @RequestMapping("/api/user")
+@Tag(name = "Users")
 public class UserController {
 
     @Autowired
@@ -21,18 +30,25 @@ public class UserController {
 
     @GetMapping()
     public ResponseEntity<List<UserDTO>> getAll() {
-        return new ResponseEntity<>(this.userService.getAll(), HttpStatus.OK);
+        return new ResponseEntity<>(this.userService.findAll(), HttpStatus.OK);
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<UserDTO> getUserById(@PathVariable Long id) {
-        return new ResponseEntity<>(userService.getUserById(id), HttpStatus.OK);
+        return new ResponseEntity<>(userService.findByID(id), HttpStatus.OK);
     }
 
     @PostMapping()
     @ResponseStatus(HttpStatus.CREATED)
     public ResponseEntity<UserDTO> createUser(@RequestBody @Valid UserDTO userDTO) {
-        return new ResponseEntity<>(userService.save(userDTO), HttpStatus.CREATED);
+        UserDTO user = userDTO;
+
+        user.setAccountNoExpired(true);
+        user.setAccountNoLocked(true);
+        user.setEnabled(true);
+        user.setCredentialNoExpired(true);
+        user.setRegisterDate(new Date());
+        return new ResponseEntity<>(userService.save(user), HttpStatus.CREATED);
     }
 
     @PutMapping("/{id}")
@@ -47,6 +63,12 @@ public class UserController {
     }
 
     @GetMapping("/student/{courseId}")
+    /*@Operation(description = "Find students by course ID")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "OK"),
+            @ApiResponse(responseCode = "404", description = "Not found"),
+            @ApiResponse(responseCode = "500", description = "Internal server error")
+    })*/
     public ResponseEntity<List<StudentDTO>> findStudentsByIdCourse(@PathVariable Long courseId) {
         return ResponseEntity.ok(userService.findStudentsByCourseId(courseId));
     }
