@@ -3,11 +3,8 @@ package com.microservice.user.controller;
 import com.microservice.user.controller.dto.StudentDTO;
 import com.microservice.user.controller.dto.TeacherDTO;
 import com.microservice.user.controller.dto.UserDTO;
-import com.microservice.user.http.response.ClientResponse;
-import com.microservice.user.persistence.entity.UserType;
 import com.microservice.user.service.IUserService;
 import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -41,14 +38,12 @@ public class UserController {
     @PostMapping()
     @ResponseStatus(HttpStatus.CREATED)
     public ResponseEntity<UserDTO> createUser(@RequestBody @Valid UserDTO userDTO) {
-        UserDTO user = userDTO;
-
-        user.setAccountNoExpired(true);
-        user.setAccountNoLocked(true);
-        user.setEnabled(true);
-        user.setCredentialNoExpired(true);
-        user.setRegisterDate(new Date());
-        return new ResponseEntity<>(userService.save(user), HttpStatus.CREATED);
+        userDTO.setAccountNoExpired(true);
+        userDTO.setAccountNoLocked(true);
+        userDTO.setEnabled(true);
+        userDTO.setCredentialNoExpired(true);
+        userDTO.setRegisterDate(new Date());
+        return new ResponseEntity<>(userService.save(userDTO), HttpStatus.CREATED);
     }
 
     @PutMapping("/{id}")
@@ -63,12 +58,12 @@ public class UserController {
     }
 
     @GetMapping("/student/{courseId}")
-    /*@Operation(description = "Find students by course ID")
+    @Operation(description = "Find students by course ID")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "OK"),
             @ApiResponse(responseCode = "404", description = "Not found"),
             @ApiResponse(responseCode = "500", description = "Internal server error")
-    })*/
+    })
     public ResponseEntity<List<StudentDTO>> findStudentsByIdCourse(@PathVariable Long courseId) {
         return ResponseEntity.ok(userService.findStudentsByCourseId(courseId));
     }

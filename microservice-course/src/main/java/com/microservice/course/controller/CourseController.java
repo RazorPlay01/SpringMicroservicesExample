@@ -1,6 +1,7 @@
 package com.microservice.course.controller;
 
 import com.microservice.course.controller.dto.CourseDTO;
+import com.microservice.course.http.response.CourseResponse;
 import com.microservice.course.service.ICourseService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,9 +14,12 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/course")
 public class CourseController {
+    ICourseService courseService;
 
     @Autowired
-    ICourseService courseService;
+    public CourseController(ICourseService courseService) {
+        this.courseService = courseService;
+    }
 
     @GetMapping()
     public ResponseEntity<List<CourseDTO>> getAll() {
@@ -45,7 +49,7 @@ public class CourseController {
     }
 
     @GetMapping("/info/{courseId}")
-    public ResponseEntity<?> findAllCourseInfo(@PathVariable Long courseId) {
+    public ResponseEntity<CourseResponse> findAllCourseInfo(@PathVariable Long courseId) {
         return ResponseEntity.ok(courseService.findStudentsAndTeachersByCourse(courseId));
     }
 }

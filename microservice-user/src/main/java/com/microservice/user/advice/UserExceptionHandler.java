@@ -11,9 +11,7 @@ public class UserExceptionHandler {
     public Map<String, String> handleInvalidArguments(MethodArgumentNotValidException exception) {
         Map<String, String> errors = new HashMap<>();
 
-        exception.getBindingResult().getFieldErrors().forEach(error -> {
-            errors.put(error.getField(), error.getDefaultMessage());
-        });
+        exception.getBindingResult().getFieldErrors().forEach(error -> errors.put(error.getField(), error.getDefaultMessage()));
         return errors;
     }
 }

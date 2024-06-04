@@ -11,7 +11,6 @@ import com.microservice.user.advice.exception.UserNotFoundException;
 import com.microservice.user.persistence.entity.UserType;
 import com.microservice.user.persistence.repository.IUserRepository;
 import org.modelmapper.ModelMapper;
-import org.modelmapper.TypeMap;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

@@ -16,12 +16,14 @@ import java.util.List;
 
 @Service
 public class CourseService implements ICourseService {
-
-    @Autowired
     ICourseRepository repository;
+    IUserClient userClient;
 
     @Autowired
-    IUserClient userClient;
+    public CourseService(ICourseRepository repository, IUserClient userClient) {
+        this.repository = repository;
+        this.userClient = userClient;
+    }
 
     private final ModelMapper modelMapper = new ModelMapper();
 
@@ -41,9 +43,9 @@ public class CourseService implements ICourseService {
     @Override
     public CourseDTO save(CourseDTO courseDTO) {
         CourseEntity courseEntity = this.modelMapper.map(courseDTO, CourseEntity.class);
-        CourseEntity courseSaved = this.repository.save(courseEntity);
+        this.repository.save(courseEntity);
 
-        return this.modelMapper.map(courseSaved, CourseDTO.class);
+        return this.modelMapper.map(courseEntity, CourseDTO.class);
     }
 
     @Override
@@ -51,9 +53,9 @@ public class CourseService implements ICourseService {
         CourseEntity currentUserEntity = this.repository.findById(id).orElseThrow(() -> new CourseNotFoundException("Curso con id " + id + " no existe."));
 
         currentUserEntity.setName(courseDTO.getName());
-        CourseEntity userUpdated = this.repository.save(currentUserEntity);
+        this.repository.save(currentUserEntity);
 
-        return this.modelMapper.map(userUpdated, CourseDTO.class);
+        return this.modelMapper.map(currentUserEntity, CourseDTO.class);
     }
 
     @Override
