@@ -59,7 +59,7 @@ public class CourseService implements ICourseService {
     }
 
     @Override
-    public void deleteUserById(Long id) {
+    public void deleteCourseById(Long id) {
         CourseEntity currentCourseEntity = this.repository.findById(id).orElseThrow(() -> new CourseNotFoundException("Curso con id " + id + " no existe."));
 
         this.repository.delete(currentCourseEntity);

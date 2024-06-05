@@ -129,10 +129,8 @@
 								<exclude>**/ServletInitializer.class</exclude>
 								<exclude>**/advice/CourseExceptionHandler.class</exclude>
 								<exclude>**/http/response/**</exclude>
-								<exclude>**/controller/dto/TeacherDTO.class</exclude>
-								<exclude>**/controller/dto/StudentDTO.class</exclude>
-								<exclude>**/controller/dto/CourseDTO.class</exclude>
-								<exclude>**/persistence/entity/CourseEntity.class</exclude>
+								<exclude>**/controller/dto/**</exclude>
+								<exclude>**/persistence/entity/**</exclude>
 							</excludes>
 						</configuration>
 					</execution>

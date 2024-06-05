@@ -94,8 +94,8 @@ class CourseControllerTest {
 
         // Then
         ArgumentCaptor<Long> longArgumentCaptor = ArgumentCaptor.forClass(Long.class);
-        verify(this.courseService).deleteUserById(anyLong());
-        verify(this.courseService).deleteUserById(longArgumentCaptor.capture());
+        verify(this.courseService).deleteCourseById(anyLong());
+        verify(this.courseService).deleteCourseById(longArgumentCaptor.capture());
         assertEquals(id, longArgumentCaptor.getValue());
 
     }

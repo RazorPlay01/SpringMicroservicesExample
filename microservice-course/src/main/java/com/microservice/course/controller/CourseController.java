@@ -45,7 +45,7 @@ public class CourseController {
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
     public void deleteCourseById(@PathVariable Long id) {
-        courseService.deleteUserById(id);
+        courseService.deleteCourseById(id);
     }
 
     @GetMapping("/info/{courseId}")

@@ -14,7 +14,7 @@ public interface ICourseService {
 
     CourseDTO update(CourseDTO courseDTO, Long id);
 
-    void deleteUserById(Long id);
+    void deleteCourseById(Long id);
 
     CourseResponse findStudentsAndTeachersByCourse(Long courseId);
 }

@@ -20,7 +20,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
-class ICourseServiceTest {
+class CourseServiceTest {
     @Mock
     private ICourseRepository courseRepository;
 
@@ -101,14 +101,14 @@ class ICourseServiceTest {
 
         // When
         when(this.courseRepository.findById(id)).thenReturn(DataProvider.courseMock());
-        this.courseService.deleteUserById(id);
+        this.courseService.deleteCourseById(id);
 
         // Then
         ArgumentCaptor<CourseEntity> courseEntityArgumentCaptor = ArgumentCaptor.forClass(CourseEntity.class);
         verify(this.courseRepository).delete(any(CourseEntity.class));
         verify(this.courseRepository).delete(courseEntityArgumentCaptor.capture());
         assertEquals("Matematicas", courseEntityArgumentCaptor.getValue().getName());
-        assertThrows(CourseNotFoundException.class, () -> this.courseService.deleteUserById(10L));
+        assertThrows(CourseNotFoundException.class, () -> this.courseService.deleteCourseById(10L));
     }
 
     @Test
