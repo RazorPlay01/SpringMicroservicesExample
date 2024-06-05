@@ -125,8 +125,12 @@
 						</goals>
 						<configuration>
 							<excludes>
-								<exclude>**/Main.class</exclude>
-								<exclude>**/entity/Player.class</exclude>
+								<exclude>**/MicroserviceUserApplication.class</exclude>
+								<exclude>**/ServletInitializer.class</exclude>
+								<exclude>**/advice/UserExceptionHandler.class</exclude>
+								<exclude>**/http/response/**</exclude>
+								<exclude>**/controller/dto/**</exclude>
+								<exclude>**/persistence/entity/**</exclude>
 							</excludes>
 						</configuration>
 					</execution>

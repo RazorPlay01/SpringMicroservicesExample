@@ -21,9 +21,12 @@ import java.util.List;
 @RequestMapping("/api/user")
 @Tag(name = "Users")
 public class UserController {
+    IUserService userService;
 
     @Autowired
-    IUserService userService;
+    public UserController(IUserService userService) {
+        this.userService = userService;
+    }
 
     @GetMapping()
     public ResponseEntity<List<UserDTO>> getAll() {

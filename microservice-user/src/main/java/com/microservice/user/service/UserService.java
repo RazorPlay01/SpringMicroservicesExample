@@ -19,13 +19,16 @@ import java.util.List;
 
 @Service
 public class UserService implements IUserService {
-
-    @Autowired
-    IUserRepository repository;
     private final ModelMapper modelMapper = new ModelMapper();
 
-    @Autowired
+    IUserRepository repository;
     ICourseClient courseClient;
+
+    @Autowired
+    public UserService(IUserRepository repository, ICourseClient courseClient) {
+        this.repository = repository;
+        this.courseClient = courseClient;
+    }
 
     @Override
     public List<UserDTO> findAll() {
@@ -43,9 +46,9 @@ public class UserService implements IUserService {
     @Override
     public UserDTO save(UserDTO userDTO) {
         UserEntity userEntity = this.modelMapper.map(userDTO, UserEntity.class);
-        UserEntity userSaved = this.repository.save(userEntity);
+        this.repository.save(userEntity);
 
-        return this.modelMapper.map(userSaved, UserDTO.class);
+        return this.modelMapper.map(userEntity, UserDTO.class);
     }
 
     @Override
@@ -58,9 +61,9 @@ public class UserService implements IUserService {
         currentUserEntity.setCourseId(userDTO.getCourseId());
         currentUserEntity.setUserType(userDTO.getUserType());
 
-        UserEntity userUpdated = this.repository.save(currentUserEntity);
+        this.repository.save(currentUserEntity);
 
-        return this.modelMapper.map(userUpdated, UserDTO.class);
+        return this.modelMapper.map(currentUserEntity, UserDTO.class);
     }
 
     @Override
@@ -74,44 +77,14 @@ public class UserService implements IUserService {
     public List<StudentDTO> findStudentsByCourseId(Long courseId) {
         List<UserEntity> students = new ArrayList<>(this.repository.findAllByCourseId(courseId).stream().filter(user ->
                 user.getUserType().equals(UserType.STUDENT)).toList());
-
-        List<StudentDTO> studentDTOS = new ArrayList<>();
-
-        for (UserEntity student : students) {
-            StudentDTO studentDTO = StudentDTO.builder()
-                    .id(student.getId())
-                    .fullname(student.getFullname())
-                    .email(student.getEmail())
-                    .courseName(getCoursesById(student.getCourseId()).getName())
-                    .build();
-
-            studentDTOS.add(studentDTO);
-        }
-
-        return studentDTOS;
-        //return students.stream().map(entity -> this.modelMapper.map(entity, StudentDTO.class)).toList();
+        return students.stream().map(entity -> this.modelMapper.map(entity, StudentDTO.class)).toList();
     }
 
     @Override
     public List<TeacherDTO> findTeachersByCourseId(Long courseId) {
         List<UserEntity> teachers = new ArrayList<>(this.repository.findAllByCourseId(courseId).stream().filter(user ->
                 user.getUserType().equals(UserType.TEACHER)).toList());
-
-        List<TeacherDTO> teacherDTOS = new ArrayList<>();
-
-        for (UserEntity teacher : teachers) {
-            TeacherDTO studentDTO = TeacherDTO.builder()
-                    .id(teacher.getId())
-                    .fullname(teacher.getFullname())
-                    .email(teacher.getEmail())
-                    .courseName(getCoursesById(teacher.getCourseId()).getName())
-                    .build();
-
-            teacherDTOS.add(studentDTO);
-        }
-
-        return teacherDTOS;
-        //return teachers.stream().map(entity -> this.modelMapper.map(entity, TeacherDTO.class)).toList();
+        return teachers.stream().map(entity -> this.modelMapper.map(entity, TeacherDTO.class)).toList();
     }
 
     @Override
